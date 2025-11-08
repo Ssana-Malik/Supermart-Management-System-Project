@@ -1,6 +1,26 @@
 #include <iostream>
 using namespace std;
 
+// ***** Structure of Product *****
+// Represents a single product in an inventory
+struct Product {
+    string pro_name;
+    int pro_id;
+    int pro_quantity;
+    float pro_price;
+    Product* next;
+    static int id;
+
+    Product(string n, int q, float p) {
+        pro_name = n;
+        pro_quantity = q;
+        pro_price = p;
+        pro_id = id++;
+        next = NULL;
+    }
+};
+int Product::id = 1001;
+
 // ***** Structure of CartItem *****
 // Represents a single item in a customer's cart.
 struct CartItem {
@@ -33,6 +53,7 @@ struct Customer {
 
 // ***** Global Head and Variable *****
 // Points to the first customer in the list and tracks the next customer ID.
+Product* head = NULL;          	  // inventory list head
 Customer* customerHead = NULL;   // Head of the customer linked list
 int nextCustId = 1;              // Counter for assigning unique customer IDs
 
@@ -66,4 +87,70 @@ Customer* findCustomer(int id) {
     }
     return NULL;
 }
+
+// ===================== Find Product in Inventory =====================
+Product* findProduct(Product* head, string name){
+	Product* temp = head;
+	while(temp != NULL){
+		if(temp->pro_name == name){
+			return temp;
+		}
+		temp = temp->next;
+	}
+	return NULL;
+}
+
+// ===================== Manage Customer's Cart =====================
+
+// Allows a customer to add products from inventory to their cart
+void addToCart(Product*& inventoryHead, Customer*& cust){
+	string name;
+	int qty;
+	while(true){
+		cout << "\nEnter product name to add (or '0' to stop): ";
+		cin >> name;
+		if(name == "0"){
+			break;
+		}
+		
+		Product* prod = findProduct(inventoryHead, name);
+		if(prod == NULL){
+			cout<<"Product not found in inventory.\n";
+			continue;
+		}
+		
+		cout<<"Enter quantity: ";
+		cin >> qty;
+		if(prod->pro_quantity == 0){
+			cout<<"Sorry, " << name << " is currently out of stock.\n";
+			continue;
+		}
+		
+		if(qty > prod->pro_quantity){
+			cout << "Only " << prod->pro_quantity << " available. Do you want to add them? (y/n): ";
+			char choice;
+			cin >> choice;
+			if(choice == 'y' || choice == 'Y'){
+				qty = prod->pro_quantity;
+			}else{
+				continue;
+			}	
+		}
+		
+		prod->pro_quantity -= qty;
+		CartItem* newItem = new CartItem(prod->pro_name, qty, prod->pro_price);
+		if(cust->cartHead == NULL){
+			cust->cartHead = newItem;
+		}else{
+			CartItem* temp = cust->cartHead;
+			while(temp->next != NULL){
+				temp = temp->next;
+			}
+			temp->next = newItem; 
+		}
+		
+		cout << "Added to cart for Customer ID " << cust->custId << "!\n";
+	}
+}
+
 
