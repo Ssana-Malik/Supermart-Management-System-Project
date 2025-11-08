@@ -57,7 +57,7 @@ void deletion(Product*& head,string name){
 	}
 	
 	if(temp->next == NULL){
-		cout<<"Invalid Position."<<endl<<endl;
+		cout<<"Product not found."<<endl<<endl;
 		return;
 	}
 	
@@ -68,6 +68,42 @@ void deletion(Product*& head,string name){
 	cout<<"Deleted Successfully."<<endl<<endl;
 }
 
+void update(Product*& head, string name){
+	if(head == NULL){
+		cout<<"No product in the inventory."<<endl<<endl;
+		return;
+	}
+	
+	Product* temp = head;
+	
+	while(temp != NULL && temp->pro_name != name){
+		temp = temp->next;
+	}
+	
+	if(temp == NULL){
+		cout<<"Product not found."<<endl<<endl;
+		return;
+	}
+	
+	cout<<"Product found."<<endl<<endl;
+	cout<<"Enter new details below: "<<endl;
+	
+	string new_stat;
+    float price;
+    int quan;
+    
+    cout<<"Enter new Quantity: ";
+    cin>>quan;
+    
+    cout<<"Enter new Price: ";
+    cin>>price;
+    cout<<endl<<endl;
+    
+    temp->pro_quantity = quan;
+    temp->pro_price = price;
+    
+    cout<<"Updated Successfully."<<endl<<endl;
+}
 int main{
 }
 
