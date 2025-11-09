@@ -1,4 +1,5 @@
 #include<iostream>
+#include <iomanip>
 using namespace std;
 
 struct Product{
@@ -104,6 +105,48 @@ void update(Product*& head, string name){
     
     cout<<"Updated Successfully."<<endl<<endl;
 }
-int main{
-}
 
+void display(Product* head){
+	if(head == NULL){
+		cout<<"No product in the inventory."<<endl<<endl;
+		return;
+	}
+	cout<<"List of product is follow: "<<endl<<endl;
+	cout<<"==================================================================================="<<endl;
+	cout<<left<<setw(20)<<"Product Id";
+    cout<<left<<setw(20)<<"Name";
+    cout<<left<<setw(20)<<"Price";
+    cout<<left<<setw(20)<<"Qunatity";
+	cout<<left<<endl;
+	cout<<"==================================================================================="<<endl;
+	
+	Product* temp = head;
+    while (temp != NULL) {
+        cout<<left<<setw(20)<<temp->pro_id;
+        cout<<left<<setw(20)<<temp->pro_name;
+        cout<<left<<setw(20)<<temp->pro_price;
+        cout<<left<<setw(20)<<temp->pro_quantity;
+        cout<<left<<endl;
+        temp = temp->next;
+    }
+    cout<<"==================================================================================="<<endl;
+}
+int main{
+	Product* head = NULL;
+	int main_choice,choice;
+	string p_name;
+	int p_quantity;
+	float p_price;
+
+	cout<<"WELCOME TO SUPERMART MANAGEMNET SYSTEM"<<endl<<endl;
+	cout<<"***** MENU *****"<<endl;
+	cout<<"\n1. Manage Employee"<<endl;
+	cout<<"2. Manage Inventory"<<endl;
+	cout<<"3. Manage Customer"<<endl;
+	cout<<"4. Billing Section"<<endl;
+	cout<<"5. Exit"<<endl<<endl;
+		
+	cout<<"Choose from the above options: ";
+	cin>>main_choice;
+	return 0;
+}
