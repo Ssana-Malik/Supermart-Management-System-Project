@@ -153,4 +153,70 @@ void addToCart(Product*& inventoryHead, Customer*& cust){
 	}
 }
 
+// Removes an item from the customer's cart and updates inventory
+void removeFromCart(Product*& inventoryHead, Customer*& cust){
+	if(cust->cartHead == NULL){
+		cout<<"Cart empty.\n";
+		return;
+	}
+	
+	string name;
+	cout<<"Enter item to remove: ";
+	cin >> name;
+	
+	CartItem* t = cust->cartHead;
+	CartItem* p = NULL;
+	
+	while(t != NULL && t->name != name){
+		p = t;
+		t = t->next;
+	}
+	
+	if(t == NULL){
+		cout<<"Item not found.\n";
+		return;
+	}
+	
+	//add back to inventory
+	Product* prod = findProduct(inventoryHead, name);
+		if(prod != NULL){
+			prod->pro_quantity += t->quantity;
+		}
+	
+	// Remove item from cart
+	if(p == NULL){
+		cust->cartHead = t->next;
+	}else{
+		p->next = t->next;
+	}
+	
+	delete t;
+	cout << "Item removed from cart of Customer " << cust->custId << ".\n";
+	
+	// if cart is now empty, remove customer as well
+	if(cust->cartHead == NULL){
+        cout << "Cart is now empty. Removing Customer ID " << cust->custId << "...\n";
+    
+    // Find and remove the customer from the linked list
+        Customer* temp = customerHead;
+        Customer* prev = NULL;
+        while (temp != NULL && temp != cust) {
+            prev = temp;
+            temp = temp->next;
+        }
+        
+        if (temp != NULL) {
+        	if(prev == NULL){      // head customer
+        		customerHead = temp->next;
+			}else{
+				prev->next = temp->next;
+			}
+			
+			delete temp;
+        	cout << "Customer removed successfully.\n";
+        }
+    }
+}
+
+
 
