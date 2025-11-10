@@ -1,5 +1,7 @@
 #include<iostream>
 #include <iomanip>
+#include<conio.h>
+
 using namespace std;
 
 struct Product{
@@ -137,16 +139,78 @@ int main{
 	string p_name;
 	int p_quantity;
 	float p_price;
-
-	cout<<"WELCOME TO SUPERMART MANAGEMNET SYSTEM"<<endl<<endl;
-	cout<<"***** MENU *****"<<endl;
-	cout<<"\n1. Manage Employee"<<endl;
-	cout<<"2. Manage Inventory"<<endl;
-	cout<<"3. Manage Customer"<<endl;
-	cout<<"4. Billing Section"<<endl;
-	cout<<"5. Exit"<<endl<<endl;
+	
+	while(true){
+		system("cls");
+		cout<<"WELCOME TO SUPERMART MANAGEMNET SYSTEM"<<endl<<endl;
+		cout<<"***** MENU *****"<<endl;
+		cout<<"\n1. Manage Employee"<<endl;
+		cout<<"2. Manage Inventory"<<endl;
+		cout<<"3. Manage Customer"<<endl;
+		cout<<"4. Billing Section"<<endl;
+		cout<<"5. Exit"<<endl<<endl;
 		
-	cout<<"Choose from the above options: ";
-	cin>>main_choice;
+		cout<<"Choose from the above options: ";
+		cin>>main_choice;
+		
+		switch(main_choice){
+			
+			case 2:
+				while(true){
+					system("cls");
+					cout<<"______ Manage Inventory ______"<<endl<<endl;
+					cout<<"***** MENU *****"<<endl;
+					cout<<"\n1. Add Items"<<endl;
+					cout<<"2. Delete Items"<<endl;
+					cout<<"3. Update Items"<<endl;
+					cout<<"4. Display All Items"<<endl;
+					cout<<"5. Go back"<<endl<<endl;
+		
+					cout<<"Choose from the above options: ";
+					cin>>choice;
+		
+				switch(choice){
+					case 1:
+						cout<<"Enter name of product: ";
+						cin>>p_name;
+						cout<<"Enter qunatity of product: ";
+						cin>>p_quantity;
+						cout<<"Enter price of product: ";
+						cin>>p_price;
+						insertion(head,p_name,p_quantity,p_price);
+						break;
+				
+					case 2:
+						cout<<"Enter name of product you want to delete: ";
+						cin>>p_name;
+						deletion(head,p_name);
+						break;
+			
+					case 3:
+						cout<<"Enter name of product you want to update: ";
+						cin>>p_name;
+						update(head,p_name);
+						break;
+				
+					case 4:
+						display(head);
+						break;		
+				
+					case 5:
+						break;	
+				
+					default:
+						cout<<"Incorrect Option."<<endl;
+				}
+				
+				if(choice==5){
+					break;
+				}
+				cout<<"Press any key to continue "<<endl;
+				getch();
+		}
+		break;
+	}
+}
 	return 0;
 }
