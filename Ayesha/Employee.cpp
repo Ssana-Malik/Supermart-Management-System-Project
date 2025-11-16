@@ -71,3 +71,63 @@ void deleteEmployee(Employee*& head, string name){
     delete del;               // free memory
     cout<<"Deleted Successfully."<<endl<<endl;
 }
+// Function to update an employee's role and salary using their name
+void updateEmployee(Employee*& head, string name) {
+    // If the list is empty, there is nothing to update
+    if (head == NULL) {
+        cout << "No Employee in the record." << endl << endl;
+        return;
+    }
+    // Search for the employee by name
+    Employee* temp = head;
+    while (temp != NULL && temp->emp_name != name) {
+        temp = temp->next;
+    }
+    // If employee with given name is not found
+    if (temp == NULL) {
+        cout << "Employee not found." << endl << endl;
+        return;
+    }
+    // Employee found
+    cout << "Employee found." << endl << endl;
+    // Take updated details from the user
+    string role;
+    int salary;
+    cout << "Enter new Role: ";
+    cin >> role;
+    cout << "Enter new Salary: ";
+    cin >> salary;
+    cout << endl;
+    // Update the employee's record
+    temp->emp_role = role;
+    temp->emp_salary = salary;
+    cout << "Updated Successfully." << endl << endl;
+}
+// Function to display all employee records
+void displayEmployee(Employee* head) {
+    // If the list is empty, display message
+    if (head == NULL) {
+        cout << "No Employee in the record." << endl << endl;
+        return;
+    }
+    // Display table header
+    cout << "List of Employees:" << endl << endl;
+    cout << "===================================================================================" << endl;
+    cout << left << setw(20) << "Employee Id";
+    cout << left << setw(20) << "Name";
+    cout << left << setw(20) << "Role";
+    cout << left << setw(20) << "Salary";
+    cout << endl;
+    cout << "===================================================================================" << endl;
+    // Traverse the linked list and display each employee record
+    Employee* temp = head;
+    while (temp != NULL) {
+        cout << left << setw(20) << temp->emp_id;
+        cout << left << setw(20) << temp->emp_name;
+        cout << left << setw(20) << temp->emp_role;
+        cout << left << setw(20) << temp->emp_salary;
+        cout << endl;
+        temp = temp->next;  // Move to the next node
+    }
+    cout << "===================================================================================" << endl;
+}
