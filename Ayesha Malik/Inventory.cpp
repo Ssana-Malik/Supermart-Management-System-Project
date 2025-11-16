@@ -1,6 +1,7 @@
 #include<iostream>
 #include <iomanip>
 #include<conio.h>
+#include<fstream>
 
 using namespace std;
 
@@ -23,6 +24,55 @@ struct Product{
 };
 int Product::id = 1001;
 
+void saveFile(Product* product){
+	ofstream outFile("Inventory.txt",ios::app);           // append(app) add new things at the end of the file. Without earsing the prvious data
+	if(!outFile){
+		cout<<"Error: Could not open file."<<endl;
+		return;
+	}
+	outFile<<product->pro_id<<"  ";
+	outFile<<product->pro_name<<"  ";
+	outFile<<product->pro_price<<"  ";
+	outFile<<product->pro_quantity<<endl;
+	outFile.close();
+}
+
+void loadFile(Product*& head){
+	ifstream outFile("Inventory.txt");
+	if(!outFile){
+		cout<<"Error: Could not open file."<<endl;
+		return;
+	}
+	
+	string name;
+    int id, quantity;
+    float price;
+
+    Product::id = 1001;  
+    
+    while(outFile>>id>>name>>quantity>>price){      // Reads the info. The loop will continue until all the data is read
+        Product* newPro = new Product(name, quantity, price);  // Creating new linked list from this read data
+        newPro->pro_id = id;
+
+        if(head == NULL){
+		 	head = newPro;
+		}
+		
+        else{
+            Product* temp = head;
+            while (temp->next != NULL){
+				temp = temp->next;
+			}
+            temp->next = newPro;
+        }
+
+        if(id >= Product::id){
+            Product::id = id + 1;
+    	}
+    }
+    outFile.close();
+}
+
 void insertion(Product*& head,string n,int quan, float pr){
 	Product* product = new Product(n,quan,pr);
 	
@@ -35,7 +85,7 @@ void insertion(Product*& head,string n,int quan, float pr){
 		temp = temp->next;
 	}
 	temp->next = product;
-	
+	saveFile(product);
 	cout<<"Added Successfully."<<endl<<endl;
 }
 
@@ -139,6 +189,7 @@ int main{
 	string p_name;
 	int p_quantity;
 	float p_price;
+	loadFile(head);
 	
 	while(true){
 		system("cls");
