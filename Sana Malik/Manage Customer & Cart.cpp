@@ -1,4 +1,5 @@
 #include <iostream>
+#include<iomanip>
 using namespace std;
 
 // ***** Structure of Product *****
@@ -216,6 +217,102 @@ void removeFromCart(Product*& inventoryHead, Customer*& cust){
         	cout << "Customer removed successfully.\n";
         }
     }
+}
+
+// Updates the quantity of an item in a customer's cart and adjusts inventory
+void updateCart(Product*& inventoryHead, Customer*& cust){
+	if(cust->cartHead == NULL){
+		cout<<"Cart empty.\n";
+		return;
+	}
+	
+	string name;
+	cout<<"Enter item to update: ";
+	cin >> name;
+	
+	CartItem* t = cust->cartHead;
+	while (t && t->name != name){
+		t = t->next;
+	}
+	
+	if(t == NULL){
+		cout<<"Item not found.\n"; 
+		return; 
+	}
+	
+    int newQty; 
+	cout<<"Enter new quantity: "; 
+	cin >> newQty;
+	
+    Product* prod = findProduct(inventoryHead, name);
+    if (prod == NULL){
+		cout << "Product not found in inventory.\n";
+		return; 
+	}
+	
+    int diff = newQty - t->quantity;
+    
+    if(diff > 0){
+    	if(diff > prod->pro_quantity){	
+    	cout << "Only " << prod->pro_quantity << " more available. Take them? (y/n): ";
+    	char c; 
+		cin >> c;
+	
+		if(c == 'y' || c == 'Y'){
+			diff = prod->pro_quantity;
+		}else{
+			return;
+    	}
+	}
+	
+	prod->pro_quantity -= diff;
+	
+	}else if(diff < 0){
+		prod->pro_quantity += (-diff);
+	}
+	
+	t->quantity = newQty;
+    cout << "Cart updated for Customer " << cust->custId << ".\n";
+}
+
+// Displays all customers carts with their items, quantities, and prices
+void displayAllCarts() {
+    if (customerHead == NULL) { 
+        cout << "No customers yet.\n"; 
+        return; 
+    }
+    
+    Customer* c = customerHead;
+    bool anyDisplayed = false; // to check if at least one non-empty cart exists
+	
+	while(c){
+		
+		// skip customers whose cart is empty
+        if(c->cartHead != NULL){
+            anyDisplayed = true;
+            cout << "\n========= Customer ID: " << c->custId << " =========\n";
+            cout << left << setw(20) << "Item"
+                 << left << setw(10) << "Qty"
+                 << left << setw(10) << "Price" << endl;
+            cout << "-------------------------------------\n";
+
+            CartItem* it = c->cartHead;
+            while(it){
+                cout << left << setw(20) << it->name
+                     << left << setw(10) << it->quantity
+                     << left << setw(10) << it->price << endl;
+                it = it->next;
+            }
+
+            cout << "-------------------------------------\n";
+        }
+        c = c->next;
+    }
+
+    // if no non-empty cart was found
+    if(!anyDisplayed){
+        cout << "\nNo customers with items in their carts.\n";
+	}
 }
 
 
