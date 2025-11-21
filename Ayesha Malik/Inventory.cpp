@@ -73,6 +73,23 @@ void loadFile(Product*& head){
     outFile.close();
 }
 
+void rewriteFile(Product* head){
+	ofstream outFile("Inventory.txt",ios::trunc);             //Truncate(trunc) Use for rewriting. It will rewrite the whole file according to the new contents
+	if(!outFile){
+		cout<<"Error: Could not open file."<<endl;
+		return;
+	}
+	Product* temp = head;
+	while(temp != NULL){
+		outFile<<temp->pro_id<<"  ";
+        outFile<<temp->pro_name<<"  ";
+        outFile<<temp->pro_quantity<<"  ";
+        outFile<<temp->pro_price<<endl;
+        temp = temp->next;
+	}
+	outFile.close();
+}
+
 void insertion(Product*& head,string n,int quan, float pr){
 	Product* product = new Product(n,quan,pr);
 	
@@ -101,6 +118,7 @@ void deletion(Product*& head,string name){
 		head = head->next;
 		delete temp;
 		cout<<"Deleted Successfully."<<endl<<endl;
+		rewriteFile(head);
 		return;
 	}
 	
@@ -119,6 +137,7 @@ void deletion(Product*& head,string name){
 	temp->next = del->next;
 	delete del;
 	cout<<"Deleted Successfully."<<endl<<endl;
+	rewriteFile(head);
 }
 
 void update(Product*& head, string name){
@@ -156,6 +175,7 @@ void update(Product*& head, string name){
     temp->pro_price = price;
     
     cout<<"Updated Successfully."<<endl<<endl;
+	rewriteFile(head);
 }
 
 void display(Product* head){
