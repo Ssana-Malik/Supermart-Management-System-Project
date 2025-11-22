@@ -1,0 +1,59 @@
+#include<iostream>
+#include<iomanip>
+#include <conio.h>
+
+using namespace std;
+int main() {
+    int main_choice, choice;
+
+    while(true){
+        system("cls");
+        cout<<"WELCOME TO SUPERMART MANAGEMENT SYSTEM"<<endl<<endl;
+        cout<<"******** MAIN MENU ********"<<endl<<endl;
+        cout<<"1. Manage Employee"<<endl;
+        cout<<"2. Manage Inventory"<<endl;
+        cout<<"3. Manage Customer/Cart"<<endl;
+        cout<<"4. Billing Section"<<endl;
+        cout<<"5. Exit"<<endl<<endl;
+        cout<<"Choose option: ";
+        cin>>main_choice;
+
+        switch(main_choice){
+
+      
+        // ************* BILLING SECTION MENU ************* 
+        case 4:
+            while(true){
+                system("cls");
+                cout << "******** Billing Section ********"<<endl;
+                cout << "1. Generate Bill for Customer ID (enqueue)"<<endl;
+                cout << "2. Process Next Bill (dequeue & print)"<<endl;
+                cout << "3. Display Pending Bills"<<endl;
+                cout << "4. Calculate Total Sales (pending)"<<endl;
+                cout << "5. Go Back"<<endl;
+                cout << "Enter choice: ";
+                cin >> choice;
+                
+                if(choice == 1){
+                   
+                } else if(choice == 2){
+                   
+                } else if(choice == 3){
+                   
+                } else if(choice == 4){
+                   
+                } else if(choice == 5){
+                    break;
+                } else {
+                    cout << "Invalid option.";
+                }
+
+                cout << "Press any key to continue..."; 
+                getch();
+            }
+            break;
+
+            
+    }
+    return 0;
+}}
