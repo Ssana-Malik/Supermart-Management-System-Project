@@ -77,6 +77,67 @@ void printBill(BillNode* bill){
     cout << "Total: " << bill->total << endl;
     cout << "=========================================" << endl;
 }
+// Generate bill for a given customer pointer: copies their cart into a bill, enqueues it, and clears customer's cart
+void generateBillForCustomer(Customer* cust){
+    if(cust == NULL){
+        cout << "Customer not found." << endl;
+        return;
+    }
+    if(cust->cartHead == NULL){
+        cout << "Customer cart is empty. Cannot generate bill." << endl;
+        return;
+    }
+
+    // Calculate total and create bill node
+    float total = 0.0f;
+    CartItem* cIt = cust->cartHead;
+    BillNode* bill = new BillNode(cust->custId, 0.0f);
+    BillItem* lastBillItem = NULL;
+
+    while(cIt){
+        float subtotal = cIt->quantity * cIt->price;
+        total += subtotal;
+        BillItem* bItem = new BillItem(cIt->name, cIt->quantity, cIt->price);
+        if(bill->itemsHead == NULL){
+            bill->itemsHead = bItem;
+            lastBillItem = bItem;
+        } else {
+            lastBillItem->next = bItem;
+            lastBillItem = bItem;
+        }
+        cIt = cIt->next;
+    }
+
+    bill->total = total;
+
+    // Enqueue the bill
+    enqueueBill(bill);
+    cout << "Bill generated and added to billing queue for Customer " << cust->custId << ".";
+
+    // After generating bill, remove customer from customer list and free their cart items
+    // Find and remove customer
+    Customer* temp = customerHead;
+    Customer* prev = NULL;
+    while(temp != NULL && temp != cust){
+        prev = temp;
+        temp = temp->next;
+    }
+    if(temp != NULL){
+        if(prev == NULL){
+            customerHead = temp->next;
+        } else {
+            prev->next = temp->next;
+        }
+        // free cart items
+        CartItem* ci = temp->cartHead;
+        while(ci){
+            CartItem* toDel = ci;
+            ci = ci->next;
+            delete toDel;
+        }
+        delete temp;
+    }
+}
 
 int main() {
     int main_choice, choice;
@@ -132,4 +193,5 @@ int main() {
     }
     return 0;
 }}
+
 
