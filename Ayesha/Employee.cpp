@@ -131,3 +131,33 @@ void displayEmployee(Employee* head) {
     }
     cout << "===================================================================================" << endl;
 }
+int main(){
+    Employee* head = NULL; // employee list head
+    int main_choice, choice;
+    string name, role;
+    int salary;
+    while(true){
+        system("cls");
+        cout<<"WELCOME TO SUPERMART MANAGEMENT SYSTEM"<<endl<<endl;
+        cout<<"***** MENU *****"<<endl;
+        cout<<"\n1. Manage Employee"<<endl;
+        cout<<"2. Manage Inventory"<<endl;
+        cout<<"3. Manage Customer"<<endl;
+        cout<<"4. Billing Section"<<endl;
+        cout<<"5. Exit"<<endl<<endl;
+        cout<<"Choose from the above options: ";
+        cin>>main_choice;
+        switch(main_choice){
+            case 1:
+                while(true){
+                    system("cls");
+                    cout<<"______ Manage Employee ______"<<endl<<endl;
+                    cout<<"***** MENU *****"<<endl;
+                    cout<<"\n1. Add Employee"<<endl;
+                    cout<<"2. Delete Employee"<<endl;
+                    cout<<"3. Update Employee"<<endl;
+                    cout<<"4. Display All Employees"<<endl;
+                    cout<<"5. Go back"<<endl<<endl;
+
+                    cout<<"Choose from the above options: ";
+                    cin>>choice;
