@@ -315,5 +315,102 @@ void displayAllCarts() {
 	}
 }
 
+//                        MAIN FUNCTION
+int main() {
+    int main_choice, choice;
+
+    while(true){
+        system("cls");
+        cout<<"WELCOME TO SUPERMART MANAGEMENT SYSTEM\n\n";
+        cout<<"******** MAIN MENU ********\n";
+        cout<<"\n1. Manage Employee"<<endl;
+        cout<<"2. Manage Inventory"<<endl;
+        cout<<"3. Manage Customer/Cart"<<endl;
+        cout<<"4. Billing Section"<<endl;
+        cout<<"5. Exit"<<endl<<endl;
+        cout<<"Choose option: ";
+        cin>>main_choice;
+
+        switch(main_choice){
+
+		// ---------------- MANAGE CUSTOMER / CART ----------------
+        case 3:
+            while (true) {
+                system("cls");
+                cout << "______ Manage Customers / Carts ______\n";
+                cout << "1. Add New Customer\n2. Add Item to Customer Cart\n3. Remove Item from Cart\n";
+                cout << "4. Update Item in Cart\n5. Display All Customer Carts\n6. Go Back\n\n";
+                cout << "Enter choice: "; 
+				cin >> choice;
+
+                int id; 
+				Customer* cust;
+				
+                switch(choice){
+                    case 1:
+                        addCustomer(); 
+						break;
+						
+                    case 2:
+                        cout << "Enter Customer ID: "; 
+						cin >> id;
+                        cust = findCustomer(id);
+                        if(cust != NULL){
+							addToCart(head, cust); 
+						}else{
+							cout << "Customer not found.\n";
+						}
+                        break;
+                        
+                    case 3:
+                        cout << "Enter Customer ID: "; 
+						cin >> id;
+                        cust = findCustomer(id);
+                        if(cust != NULL){
+							removeFromCart(head, cust); 
+						}else{
+							cout << "Customer not found.\n";
+						}
+                        break;
+                        
+                    case 4:
+                        cout << "Enter Customer ID: "; 
+						cin >> id;
+                        cust = findCustomer(id);
+                        if(cust != NULL){
+							updateCart(head, cust); 
+						}else{
+							cout << "Customer not found.\n";
+						}
+                        break;
+                        
+                    case 5:
+                        displayAllCarts(); 
+						break;
+						
+                    case 6: 
+                    	break;
+                    	
+                    default: 
+					cout << "Invalid option.\n";
+                }
+                
+                if(choice==6){
+					break;
+				}
+				
+                cout << "\nPress any key to continue..."; 
+				getch();
+            }
+            break;
+
+        	default:
+            	cout << "Invalid option.\n";
+        	}
+		
+    }
+    return 0;
+}
+
 
 
