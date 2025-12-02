@@ -139,6 +139,50 @@ void generateBillForCustomer(Customer* cust){
     }
 }
 
+// Calculate total sales by iteracting through billing queue
+float calculateTotalSales(){
+    float sum = 0.0f;
+    BillNode* temp = billFront;
+    while(temp != NULL){
+        sum += temp->total;
+        temp = temp->next;
+    }
+    return sum;
+}
+
+// Display pending bills in the queue 
+void displayPendingBills(){
+    if(billFront == NULL){
+        cout << "No pending bills in queue." << endl;
+        return;
+    }
+    cout << "Pending Bills:";
+    BillNode* temp = billFront;
+    while(temp){
+        cout << "Customer ID: " << temp->customerId << " | Total: " << temp->total << endl;
+        temp = temp->next;
+    }
+}
+
+// Process next bill in queue
+void processNextBill(){
+    BillNode* bill = dequeueBill();
+    if(bill == NULL){
+        cout << "No bills to process." << endl;
+        return;
+    }
+    printBill(bill);
+
+    // free bill items
+    BillItem* it = bill->itemsHead;
+    while(it){
+        BillItem* t = it;
+        it = it->next;
+        delete t;
+    }
+    delete bill;
+}
+
 int main() {
     int main_choice, choice;
 
@@ -193,5 +237,6 @@ int main() {
     }
     return 0;
 }}
+
 
 
