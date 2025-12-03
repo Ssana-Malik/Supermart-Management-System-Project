@@ -37,6 +37,8 @@ struct BillNode {
 // Queue pointers
 BillNode* billFront = NULL;
 BillNode* billRear = NULL;
+BillNode* processedBillsHead = NULL;
+
 
 // Enqueue a bill
 void enqueueBill(BillNode* node){
@@ -139,16 +141,8 @@ void generateBillForCustomer(Customer* cust){
     }
 }
 
-// Calculate total sales by iteracting through billing queue
-float calculateTotalSales(){
-    float sum = 0.0f;
-    BillNode* temp = billFront;
-    while(temp != NULL){
-        sum += temp->total;
-        temp = temp->next;
-    }
-    return sum;
-}
+
+
 
 // Display pending bills in the queue 
 void displayPendingBills(){
@@ -171,17 +165,75 @@ void processNextBill(){
         cout << "No bills to process." << endl;
         return;
     }
+
     printBill(bill);
 
-    // free bill items
-    BillItem* it = bill->itemsHead;
-    while(it){
-        BillItem* t = it;
-        it = it->next;
-        delete t;
-    }
-    delete bill;
+    // Save this bill into processed bills list
+    bill->next = processedBillsHead;
+    processedBillsHead = bill;
+
+    // Do NOT delete items here (otherwise totals break)
 }
+// Calculate total sales by iteracting through billing queue
+float calculateTotalSales(){
+    float sum = 0.0f;
+
+    // Add totals from pending bills
+    BillNode* temp = billFront;
+    while(temp != NULL){
+        sum += temp->total;
+        temp = temp->next;
+    }
+
+    // Add totals from processed bills
+    BillNode* p = processedBillsHead;
+    while(p != NULL){
+        sum += p->total;
+        p = p->next;
+    }
+
+    return sum;
+}
+
+// Show complete sales of the day with customer-wise detail
+void showSalesOfTheDay() {
+    cout << "\n====== TOTAL SALES OF THE DAY ======\n";
+
+    BillNode* temp;
+
+    // 1) First show pending bills in queue
+    temp = billFront;
+    cout << "\n--- Pending Bills ---\n";
+    if(temp == NULL) cout << "No pending bills.\n";
+    while(temp) {
+        cout << "\nCustomer ID: " << temp->customerId << endl;
+        BillItem* it = temp->itemsHead;
+        while(it) {
+            cout << "   " << it->name << "  | Qty: " << it->quantity 
+                 << " | Price: " << it->price 
+                 << " | Subtotal: " << it->price * it->quantity << endl;
+            it = it->next;
+        }
+        cout << "Total: " << temp->total << endl;
+        temp = temp->next;
+    }
+
+    // 2) Show processed bills
+    temp = processedBillsHead;
+    cout << "\n--- Processed Bills ---\n";
+    if(temp == NULL) cout << "No processed bills.\n";
+    while(temp) {
+        cout << "\nCustomer ID: " << temp->customerId << endl;
+        BillItem* it = temp->itemsHead;
+        while(it) {
+            cout << "   " << it->name << "  | Qty: " << it->quantity 
+                 << " | Price: " << it->price 
+                 << " | Subtotal: " << it->price * it->quantity << endl;
+            it = it->next;
+        }
+        cout << "Total: " << temp->total << endl;
+        temp = temp->next;
+    }
 
 int main() {
     int main_choice, choice;
@@ -206,25 +258,31 @@ int main() {
             while(true){
                 system("cls");
                 cout << "******** Billing Section ********"<<endl;
-                cout << "1. Generate Bill for Customer ID (enqueue)"<<endl;
-                cout << "2. Process Next Bill (dequeue & print)"<<endl;
+                cout << "1. Generate Bill for Customer ID "<<endl;
+                cout << "2. Process  Bill "<<endl;
                 cout << "3. Display Pending Bills"<<endl;
-                cout << "4. Calculate Total Sales (pending)"<<endl;
-                cout << "5. Go Back"<<endl;
+                cout << "4. Calculate Total Sales"<<endl;
+                cout << "5. Show total sales of the day"<<endl;
+                cout << "6. Go Back"<<endl;
                 cout << "Enter choice: ";
                 cin >> choice;
                 
-                if(choice == 1){
-                   
+              if(choice == 1){
+                    int cid;
+                    cout << "Enter Customer ID to generate bill: ";
+                    cin >> cid;
+                    Customer* c = findCustomer(cid);
+                    generateBillForCustomer(c);
                 } else if(choice == 2){
-                   
+                    processNextBill();
                 } else if(choice == 3){
-                   
+                    displayPendingBills();
                 } else if(choice == 4){
-                   
-                } else if(choice == 5){
+                    float total = calculateTotalSales();
+                    cout << "Total sales (pending bills) = " << total << endl;
+                } else if(choice == 6){
                     break;
-                } else {
+		           }  else{
                     cout << "Invalid option.";
                 }
 
@@ -232,11 +290,11 @@ int main() {
                 getch();
             }
             break;
-
             
     }
     return 0;
-}}
+    }}
+
 
 
 
