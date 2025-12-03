@@ -21,6 +21,7 @@ struct Employee {
     }
 };
 int Employee::id = 2001; // starting id for employees
+Employee* empHead = NULL;   // Global Head for Employee List
 void addEmployee(Employee*& head, string name, string role, int salary){
     // Createing new employee node dynamically
     Employee* emp = new Employee(name, role, salary);
@@ -132,7 +133,6 @@ void displayEmployee(Employee* head) {
     cout << "===================================================================================" << endl;
 }
 int main(){
-    Employee* head = NULL; // employee list head
     int main_choice, choice;
     string name, role;
     int salary;
@@ -158,6 +158,51 @@ int main(){
                     cout<<"3. Update Employee"<<endl;
                     cout<<"4. Display All Employees"<<endl;
                     cout<<"5. Go back"<<endl<<endl;
-
+                    
                     cout<<"Choose from the above options: ";
                     cin>>choice;
+switch(choice){
+            case 1:
+                cout<<"Enter Employee Name: ";
+                cin>>name;
+                cout<<"Enter Employee Role: ";
+                cin>>role;
+                cout<<"Enter Employee Salary: ";
+                cin>>salary;
+                addEmployee(empHead, name, role, salary);
+                break;
+    
+            case 2:
+                cout<<"Enter Employee Name to Delete: ";
+                cin>>name;
+                deleteEmployee(empHead, name);
+                break;
+    
+            case 3:
+                cout<<"Enter Employee Name to Update: ";
+                cin>>name;
+                updateEmployee(empHead, name);
+                break;
+            case 4:
+                
+                displayEmployee(empHead);
+                break;
+    
+            case 5:
+                break;
+            default:
+                cout<<"Invalid option.\n";
+        }
+        if(choice == 5) break;
+        cout<<"Press any key to continue...";
+        getch();
+    }
+    break;
+    case 5:
+        return 0;
+     default:
+        cout<<"Invalid Option!"<<endl;
+        }
+    }
+    return 0;
+}
