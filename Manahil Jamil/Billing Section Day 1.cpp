@@ -60,7 +60,7 @@ BillNode* dequeueBill(){
     return temp;
 }
 
-// Print a single bill (receipt style)
+// Print a single bill 
 void printBill(BillNode* bill){
     if(bill == NULL) return;
     cout << "========== SuperMart Receipt ==========" << endl;
@@ -114,7 +114,7 @@ void generateBillForCustomer(Customer* cust){
 
     // Enqueue the bill
     enqueueBill(bill);
-    cout << "Bill generated and added to billing queue for Customer " << cust->custId << ".";
+    cout << "Bill generated and added to billing queue for Customer "<<endl << cust->custId << ".";
 
     // After generating bill, remove customer from customer list and free their cart items
     // Find and remove customer
@@ -150,10 +150,10 @@ void displayPendingBills(){
         cout << "No pending bills in queue." << endl;
         return;
     }
-    cout << "Pending Bills:";
+    cout << "Pending Bills:"<<endl;
     BillNode* temp = billFront;
     while(temp){
-        cout << "Customer ID: " << temp->customerId << " | Total: " << temp->total << endl;
+        cout << "Customer ID: " << temp->customerId  << endl;
         temp = temp->next;
     }
 }
@@ -209,7 +209,8 @@ void showSalesOfTheDay() {
         cout << "\nCustomer ID: " << temp->customerId << endl;
         BillItem* it = temp->itemsHead;
         while(it) {
-            cout << "   " << it->name << "  | Qty: " << it->quantity 
+            cout << "  " << it->name  
+	       << " | Qty: " << it->quantity 
                  << " | Price: " << it->price 
                  << " | Subtotal: " << it->price * it->quantity << endl;
             it = it->next;
@@ -226,14 +227,18 @@ void showSalesOfTheDay() {
         cout << "\nCustomer ID: " << temp->customerId << endl;
         BillItem* it = temp->itemsHead;
         while(it) {
-            cout << "   " << it->name << "  | Qty: " << it->quantity 
-                 << " | Price: " << it->price 
-                 << " | Subtotal: " << it->price * it->quantity << endl;
+            cout << "  Item:  " << it->name    << "   "
+	       << " |    Qty:  " << it->quantity<< "   "
+                 << " |    Price:  " << it->price   << "   " 
+                 << " |    Subtotal:  " << it->price * it->quantity << endl;
             it = it->next;
         }
         cout << "Total: " << temp->total << endl;
         temp = temp->next;
     }
+
+    cout << "\n=====================================\n";
+}
 
 int main() {
     int main_choice, choice;
@@ -280,7 +285,11 @@ int main() {
                 } else if(choice == 4){
                     float total = calculateTotalSales();
                     cout << "Total sales (pending bills) = " << total << endl;
-                } else if(choice == 6){
+                } 
+			  else if(choice == 6){
+    showSalesOfTheDay();
+}
+else if(choice == 6){
                     break;
 		           }  else{
                     cout << "Invalid option.";
@@ -294,6 +303,7 @@ int main() {
     }
     return 0;
     }}
+
 
 
 
