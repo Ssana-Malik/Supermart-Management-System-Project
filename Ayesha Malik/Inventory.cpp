@@ -95,6 +95,8 @@ void insertion(Product*& head,string n,int quan, float pr){
 	
 	if(head == NULL){
 		head = product;
+		saveFile(product);
+		cout<<"Added Successfully."<<endl<<endl;
 		return;
 	}
 	Product* temp = head;
@@ -160,7 +162,6 @@ void update(Product*& head, string name){
 	cout<<"Product found."<<endl<<endl;
 	cout<<"Enter new details below: "<<endl;
 	
-	string new_stat;
     float price;
     int quan;
     
