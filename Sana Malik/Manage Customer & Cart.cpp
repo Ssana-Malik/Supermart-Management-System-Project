@@ -193,30 +193,6 @@ void removeFromCart(Product*& inventoryHead, Customer*& cust){
 	
 	delete t;
 	cout << "Item removed from cart of Customer " << cust->custId << ".\n";
-	
-	// if cart is now empty, remove customer as well
-	if(cust->cartHead == NULL){
-        cout << "Cart is now empty. Removing Customer ID " << cust->custId << "...\n";
-    
-    // Find and remove the customer from the linked list
-        Customer* temp = customerHead;
-        Customer* prev = NULL;
-        while (temp != NULL && temp != cust) {
-            prev = temp;
-            temp = temp->next;
-        }
-        
-        if (temp != NULL) {
-        	if(prev == NULL){      // head customer
-        		customerHead = temp->next;
-			}else{
-				prev->next = temp->next;
-			}
-			
-			delete temp;
-        	cout << "Customer removed successfully.\n";
-        }
-    }
 }
 
 // Updates the quantity of an item in a customer's cart and adjusts inventory
@@ -245,10 +221,6 @@ void updateCart(Product*& inventoryHead, Customer*& cust){
 	cin >> newQty;
 	
     Product* prod = findProduct(inventoryHead, name);
-    if (prod == NULL){
-		cout << "Product not found in inventory.\n";
-		return; 
-	}
 	
     int diff = newQty - t->quantity;
     
@@ -411,6 +383,7 @@ int main() {
     }
     return 0;
 }
+
 
 
 
